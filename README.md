@@ -1,9 +1,8 @@
 # Alpha-Shop
 ---
 ### 專案業面連結
-``` bash 
 https://jj280385.github.io/Alpha-Shop/
-```
+
 
 ### 專案桌機版畫面
 ![image](src/images/Alpha%20Shop%20Web%20Photo.png)
