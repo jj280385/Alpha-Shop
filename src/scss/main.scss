@@ -1,0 +1,601 @@
+@import "color";
+@import "reset";
+@import "include";
+@import "extend";
+
+body {
+  background: var(--body-background);
+  max-width: 1440px;
+}
+
+// Mobile First 行動版 max-width: 375px
+//--------------------------------------
+// header navbar 導覽列 
+nav {
+  background: var(--body-background);
+  @include position(relative);
+  width: 100%;
+  height: 56px;
+  // 點擊hamburger後顯示wrapper
+  .hamburger-icon {
+    @extend %position-center;
+    left: 17px;
+    width: 20px;      
+    height: 15px;
+    cursor: pointer;
+  }
+  .navbar-toggle {
+    visibility: hidden;
+    &:checked~.navbar-wrapper {
+      @include flex(column, start, center);
+    }
+  }
+  .navbar-wrapper {
+    // 點擊hamburger再顯示
+    display: none;
+    transition: display .2s ease-out;
+    @include position(absolute, $top: 100%);
+    width: 346px;
+    height: 1116px;
+    z-index: 100;
+    background-color: var(--body-background);
+    &__menu {
+      width: 100%;
+      background-color: var(--body-background);
+      .nav-items {
+        height: 64px;
+        width: 100%;
+        border-bottom: 1px solid rgba(42, 42, 42, 0.1);
+      }
+      a {
+      @include flex(row, center, center);
+      font-size: 16px;
+      font-weight: 500;
+      padding: 16px 0;
+      line-height: 24px;
+      color: var(--main-font-color);
+      }
+    }
+    &__icons {
+      @include flex(row, space-evenly, center);
+      width: 346px;
+      height: 24px;
+      margin-top: 24px;
+      &--search {
+        width: 21px;
+        height: 21px;
+      }
+			&--cart {
+        width: 24px;
+        height: 24px;
+      }
+      &--dark-mode {
+        width: 20.25px;
+        height: 20.25px;
+      }
+    }
+  }
+  .navbar__logo {
+    @extend %position-center;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 135.86px;
+    height: 24px;
+  }
+}
+
+// checkout-form area 結帳表格區
+.checkout-form {
+  position: relative;
+  width: 375px;
+  height: 100%;
+	padding: 0 15px 0 14px;
+  .title {
+    @extend %checkout-title;
+  }
+// stepper 步驟區
+		.stepper-panel {
+		@include position(relative);
+		width: 100%;
+		height: 32px;
+		margin-top: 24px;
+		@include flex(row, space-between, center);
+		.step {
+			@include position(relative);
+      width: 32px;
+      text-align: center;
+      @include getStepNums(3);
+      .circle-container {
+        @extend %circle-container;
+        border: 1px solid var(--gray-5);
+        color: var(--gray-5);
+        }
+      .stepper-title {
+        display: none;
+      }
+      .connect-line {
+        @extend %connect-line;
+        background-color: var(--gray-6);
+      }
+      &.initial {
+        .circle-container {
+          background-color: var(--main-font-color);
+          color: var(--body-background);
+          border: 1px solid var(--main-font-color);
+        }
+        .connect-line {
+          @extend %connect-line;
+          background-color: var(--black-1);
+          display: block;
+          }
+        }
+        &.checked {
+          .circle-container {
+            background-color: var(--main-font-color);
+            color: var(--body-background);
+          }
+          .connect-line {
+            @extend %connect-line;
+            background-color: var(--black-1);
+            display: block;
+          }
+        }
+        &.checked .circle-container::after {
+          content:"\2714" ;
+        }
+        &.active {
+          .circle-container {
+            background-color: var(--body-background);
+            color: var(--main-font-color);
+            border: 1px solid var(--main-font-color);
+            border-radius: 50%;
+          }
+          .connect-line {
+            @extend %connect-line;
+            background-color: var(--black-1);
+            display: block;
+            }
+          }
+        }
+    }
+// form parts 表格
+// form part 1 寄送地址 
+    .form-parts {
+    margin-top: 24px;
+    .second {
+      width: 346px;
+      height: 192px;
+    }
+    .third {
+      position: relative;
+      display: flex; 
+      flex-wrap: wrap;
+      width: 346px;
+      height: 288px;
+    }
+    &__title {
+      @extend %form-title;
+    }
+    &__part {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    &__part-row {
+      @include flex(column, start, start);
+      height: 64px;
+      margin-top: 18px;
+      ::placeholder {
+        @extend %placeholder-font;
+        }
+    }
+    label {
+      @extend %form-label;
+    }
+    select {
+      @extend %select-element;
+      @extend %form-border;
+    }
+    .select-wrapper {
+      @include position(relative);
+      z-index: 0;
+      &::after {
+        @extend %select-wrapper;
+        @include position(absolute, $top: 50%, $right: 18px);
+      }
+    }
+    #gender {
+      width: 133px;
+      height: 40px;
+    }
+    .name {
+      margin-left: 28px;
+        #name {
+          width: 183px;
+          height: 40px;
+          padding-left: 16px;
+        }
+    }
+    input {
+      @extend %input-size;
+      @extend %form-border;
+      color: var(--gray-4);    
+		}
+    #city {
+      @extend %input-size;
+      color: var(--gray-4);
+    }
+// form part 2 運送方式
+  .ship-container {
+		width: 346px;
+    height: 168px;
+  }
+  .checked {
+    border: 1px solid var(--main-font-color);
+  }
+  .standard-ship, .dhl-ship {
+    @include position(relative);
+    @extend %ship-border;
+    margin-top: 24px;
+    &:hover {          
+			border: 1px solid var(--main-font-color);
+    }
+    #ship {
+      @include position(absolute, $left: 10px);
+      &[type="radio"] {
+      -webkit-appearance: none;        
+			border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      &:checked {
+        box-shadow: inset 0 0 0 6px var(--main-font-color);
+      }
+      }
+    }
+    .ship-type {
+      @include position(absolute, $top: 0px, $left: 60px);
+      width: 286px;
+      height: 60px;
+      color: var(--black-1);
+      .ship__type {
+        &--title {
+          @extend %ship-title;
+          @include position(absolute, $top: 11px);
+        }
+        &--date {
+          @extend %ship-date;
+          @include position(absolute, $top: 33px);
+        }
+        &--fee {
+          @extend %ship-date;
+          @include position(absolute, $top: 13px, $right: 30px);
+        }
+      }
+      .dhl {
+        @extend %dhl-font;
+      }
+      &:checked {
+        border: 1px solid var(--main-font-color);
+      }
+    }
+  }
+// form part 3 付款資訊
+  #expiry-date, #cvc {
+    width: 158px;
+    height: 40px;
+  }    
+	.cvc {
+    position: absolute;
+    top: 308px;
+    left: 188px;  
+	}
+    }
+}
+
+// cart 購物車
+.cart-container {
+  position: relative;
+  @extend %cart-container;
+  .cart-title {
+    display: none;
+  }
+  .product-card{
+    margin-bottom: 18px;
+  }
+  img {
+    width: 100px;
+    height: 100px;
+  }
+  .product__info {
+    @include flex(column, space-between, flex-end);
+    height: 100px ;
+    &--name {
+      @extend %product-name;
+    }
+    &--counter {
+      display: flex;
+			&-icon{
+        @extend %counter-icons;
+      }
+      .minus::after {
+        content: '\2212';
+        @extend %btnMinus-size;
+      }
+      .plus::after {
+        content: '\002B';
+        @extend %btnPlus-size;
+      }
+      &-amount {
+        width: 53.12px;
+        margin: 0 5.44px;
+        text-align: center;
+      }
+        }
+      &--price {
+        @extend %product-price;
+      }
+    }
+    .product-1 {
+      @include position(absolute, $top: 18px, $right: 16px, $bottom: 234px, $left: 171px);
+    }
+    .product-2 {
+      @include position(absolute, $top: 134px, $right: 16px, $bottom: 200px, $left: 171px);
+    }
+    .fee, .total {
+			width: 313px;
+			height: 52px;
+			border-top: 1px solid var(--gray-6);
+			@include flex (row, space-between, center);
+			&__title {
+				@extend %fee-title;
+      }
+      &__price {
+        @extend %fee-price;
+      }
+  }
+}
+
+// button 按鈕控制
+.button-container {
+  width: 345px;
+  border-top: 2px solid var(--gray-7);
+  @include flex (row, space-between, center);
+  margin: 0 15px;
+  padding-top: 24px;
+  .btn{
+		&[disabled] {
+    visibility: hidden;
+    }
+  }		
+	.btn-outline 		{
+    @extend %btn-outline		;
+    &::before {
+			content: '\2190';
+      margin-right: 12.5px;
+    }
+	}
+	.btn-next {
+		@extend %btn-next;
+		&::after {
+      content: '\2192';
+      margin-left: 13.5px;
+      }
+    }
+}
+
+// Wed 桌機版 min-width: 375px
+@media screen and (min-width: 376px) {
+  nav {
+    width: 100%;
+    height: 60px;
+    label {
+      display: none;
+    }
+    .navbar-wrapper {
+      @include flex (row, space-between, center);
+      @include position (absolute, $top: 0, $left: 0);
+      width: 100%;
+      height: 60px;
+      padding: 0 165px;
+      &__menu {
+        display: flex;
+        width: 384px;
+        .nav-items {
+          @include flex (row, space-between, center);
+          border: none;
+          height: 20.37px;
+        }
+      }
+      &__icons {
+        width: 132px;
+        height: 24px;
+        margin-top: 0;
+        @include flex (row, space-between, center);
+      }
+    }
+    .navbar__logo {
+      z-index: 999;
+      width: 169.83px;
+      height: 30px;
+    }
+  }
+
+  main {
+    margin: 80px 165px;
+    display: grid;
+    grid-template-columns: repeat(12, 65px);
+    grid-column-gap: 30px;
+  }
+  .checkout-form {
+    grid-column: 1/7;
+    padding: 0;
+    width: 100%;
+		.stepper-panel {
+      width: 536px;
+      height: 24px;
+      margin-top: 48px;          
+			.step {
+        @include flex (row, center, center);
+        width: 96px;
+        height: 24px;
+        .circle-container {
+            width: 24px;
+            height: 24px;
+        }
+        .connect-line {
+            @include connectLine;
+        }
+        .stepper-title {
+            @include steeperTitle;
+        }
+        &.initial, &.checked, &.active {
+            .connect-line {
+              @include connectLine;
+            }
+        }
+      }
+    }
+    .form-area {
+      width: 540px;
+      margin-top: 64px;
+      .first {
+        height: 288px;
+        .form-parts{
+          &__title {
+          grid-area: header;
+          }
+          &__part {
+            margin-top: 24px;
+            display: grid;
+            grid-template-columns: repeat(6, 65px);
+            grid-template-rows: repeat(3, 1fr);
+            column-gap: 30px;
+            row-gap: 24px;
+            grid-template-areas:
+            " gender gender name name name name "
+            " phone phone phone email email email "
+            " city city address address address address ";
+            &-row {
+              margin-top: 0;
+            }
+            .gender {
+              grid-area: gender;
+              #gender {
+                width: 160px;
+              }
+            }
+            .name {
+              grid-area: name;
+              margin-left: 0;
+              #name {
+                width: 350px;
+              }
+            }
+            .phone-number {
+              grid-area: phone;
+              #phone-number {
+                width: 255px;
+              }
+            }
+            .email {
+              grid-area: email;
+              #email {
+                width: 255px;
+              }
+            }
+            .city {
+              grid-area: city;
+              #city {
+                width: 160px;
+              }
+            }
+            .address {
+              grid-area: address;
+              #address {
+              width: 350px;
+              }
+            }
+          }
+        }
+      }
+      .second{
+        width: 435px;
+        height: 192px;
+        .ship-container {
+          width: 100%;
+          .standard-ship, .dhl-ship {
+            width: 435px;
+            height: 60px;
+            .ship-type {
+              width: 375px;
+            }
+          }
+        }
+      }
+      .third {
+        position: relative;
+        width: 540px;
+        height: 288px;
+        .form-parts__part-row {
+          margin-top: 24px
+        }
+        input {
+          width: 350px;
+        }
+        #expiry-date , #cvc {
+          width: 255px;
+        }
+        .cvc {
+          position: absolute;
+          top: 203px;
+          left: 285px;
+        }
+      }
+    }
+  }
+
+  #cart-container {
+    grid-column: 8/13;
+    width: 440px;
+    height: 492px;
+    padding: 32px 24px;
+    margin: 86px 0;
+    .cart-title {
+      @include cartTitle;
+    }
+    .product-card {
+      display: flex;
+      margin: 34px 0;
+      .product__info {
+        @include flex (column, flex-start, flex-start);
+        margin: 0 21px;
+        position: inherit;
+        &--name {
+          margin-bottom: 18px;
+        }
+        &--price {
+          position: absolute;
+          top: 89px;
+          right: 24px;
+        }
+        .price2 {
+          position: absolute;
+          top: 223px;
+          right: 24px;
+        }
+      }
+    }
+    .fee, .total {
+      width: 100%;
+    }
+  }
+
+  .button-container {
+    position: absolute;
+    top: 590px;
+    width: 540px;
+    margin: 48px 0;
+    border-top: 2px solid var(--gray-7);
+  }
+}
